@@ -121,32 +121,32 @@ def plot_shap_beeswarm(
     explainer  = shap.TreeExplainer(model)
     shap_vals  = explainer.shap_values(X_sample)
 
-    # Beeswarm
-    fig, ax = plt.subplots(figsize=(9, 6))
+    # Beeswarm — shap.summary_plot manages its own figure/axes (no `ax` kwarg)
     shap.summary_plot(
         shap_vals, X_sample,
         feature_names=feature_names,
-        show=False, plot_size=None, ax=ax
+        show=False, plot_size=(9, 6)
     )
-    ax.set_title("LightGBM SHAP Summary — Feature Impact on Price Prediction")
+    fig = plt.gcf()
+    plt.gca().set_title("LightGBM SHAP Summary — Feature Impact on Price Prediction")
     fig.tight_layout()
     path = out_dir / "shap_beeswarm.png"
     fig.savefig(path, dpi=300, bbox_inches="tight")
-    plt.close()
+    plt.close(fig)
     print(f"[shap] Saved: {path}")
 
     # Bar plot — mean |SHAP|
-    fig2, ax2 = plt.subplots(figsize=(8, 5))
     shap.summary_plot(
         shap_vals, X_sample,
         feature_names=feature_names,
-        plot_type="bar", show=False, ax=ax2
+        plot_type="bar", show=False, plot_size=(8, 5)
     )
-    ax2.set_title("LightGBM — Mean Absolute SHAP Value (Feature Importance)")
+    fig2 = plt.gcf()
+    plt.gca().set_title("LightGBM — Mean Absolute SHAP Value (Feature Importance)")
     fig2.tight_layout()
     path2 = out_dir / "shap_bar.png"
     fig2.savefig(path2, dpi=300, bbox_inches="tight")
-    plt.close()
+    plt.close(fig2)
     print(f"[shap] Saved: {path2}")
 
 
