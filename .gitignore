@@ -1,0 +1,52 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Data — too large for GitHub
+data/*.csv
+data/*.parquet
+data/*.xlsx
+data/*.json
+!data/.gitkeep
+
+# Models — too large for GitHub (use Git LFS or store externally)
+models/*.pkl
+models/*.joblib
+models/*.bin
+!models/.gitkeep
+
+# Environment
+.env
+.env.local
+
+# OS
+.DS_Store
+Thumbs.db
+nul
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Outputs (generated at runtime)
+figures/*.png
+figures/*.pdf
+!figures/.gitkeep
