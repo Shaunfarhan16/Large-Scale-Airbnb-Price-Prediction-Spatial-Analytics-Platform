@@ -50,6 +50,16 @@ def load_data(csv_file) -> pd.DataFrame:
     df = pd.read_csv(csv_file)
     leak = [c for c in df.columns if "price" in c.lower() and c != "price"]
     df   = df.drop(columns=leak, errors="ignore")
+
+    # Normalise price to numeric — handles both raw ("$85.00") and
+    # pre-cleaned CSVs. Without this, an upload of the raw file leaves
+    # price as a string column and crashes any .median()/.mean() call.
+    if "price" in df.columns and not pd.api.types.is_numeric_dtype(df["price"]):
+        df["price"] = pd.to_numeric(
+            df["price"].astype(str).str.replace(r"[\$,]", "", regex=True),
+            errors="coerce",
+        )
+
     if "last_scraped" in df.columns:
         df["month"] = pd.to_datetime(df["last_scraped"]).dt.month_name()
     return df
